@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sourik Maity | Web Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- RESET ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #02010a 55%, #000 100%);
+      color: #f9fafb;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    :root {
+      --accent: #6366f1;
+      --accent-2: #22d3ee;
+      --accent-3: #f97316;
+      --bg-card: rgba(15, 23, 42, 0.92);
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --text-muted: #94a3b8;
+      --radius-2xl: 22px;
+      --blur: 20px;
+      --shadow-soft: 0 22px 60px rgba(15, 23, 42, 0.85);
+    }
+
+    /* ---------- APPLE-LIKE INTRO "HELLO" ---------- */
+    .intro {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #020617 0, #02010a 55%, #000 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    .intro-inner {
+      position: relative;
+      text-align: center;
+    }
+
+    .hello-wrapper {
+      position: relative;
+      width: min(90vw, 680px);
+      height: min(40vw, 230px);
+    }
+
+    .hello-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 18px rgba(15, 23, 42, 0.8));
+    }
+
+    .hello-stroke {
+      fill: none;
+      stroke: #e5e7eb;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1800;
+      stroke-dashoffset: 1800;
+      animation: hello-stroke-draw 3.2s ease-in-out forwards;
+    }
+
+    .hello-fill {
+      fill: url(#helloGradient);
+      opacity: 0;
+      animation: hello-fill-fade 2.3s ease-in-out 1.7s forwards;
+    }
+
+    .hello-glow-overlay {
+      position: absolute;
+      inset: -10%;
+      background: radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.85), transparent 55%),
+                  radial-gradient(circle at 70% 90%, rgba(244, 114, 182, 0.85), transparent 60%),
+                  radial-gradient(circle at 120% 0%, rgba(249, 115, 22, 0.8), transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      filter: blur(24px);
+      animation: hello-glow 3.1s ease-in-out 0.7s forwards;
+      pointer-events: none;
+    }
+
+    .hello-sub {
+      margin-top: 1.8rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #64748b;
+      opacity: 0;
+      animation: intro-sub 1.9s ease 1.7s forwards;
+    }
+
+    @keyframes hello-stroke-draw {
+      0% {
+        stroke-dashoffset: 1800;
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      80% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+
+    @keyframes hello-fill-fade {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes hello-glow {
+      0% { opacity: 0; transform: scale(1.05); }
+      40% { opacity: 0.7; }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes intro-sub {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .intro.hide {
+      opacity: 0;
+      transform: scale(1.03);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      pointer-events: none;
+    }
+
+    .intro.hidden {
+      display: none;
+    }
+
+    /* ---------- LAYOUT ---------- */
+    .page {
+      position: relative;
+      padding: 1.5rem 1.25rem 3rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* Floating blobs */
+    .blob {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: -1;
+      animation: float-blob 24s infinite alternate ease-in-out;
+    }
+
+    .blob-1 { top: -80px; left: -120px; background: #6366f1; }
+    .blob-2 { bottom: -120px; right: -40px; background: #22d3ee; animation-delay: -7s; }
+    .blob-3 { top: 40%; right: 25%; background: #f97316; animation-delay: -13s; }
+
+    @keyframes float-blob {
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(40px,-20px) scale(1.18); }
+    }
+
+    /* ---------- NAVBAR ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.96), transparent);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-orb {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fefce8, #6366f1 40%, #020617 100%);
+      box-shadow: 0 0 24px rgba(99, 102, 241, 0.9);
+    }
+
+    .nav-name {
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: #e5e7eb;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+    }
+
+    .nav-links a {
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: #cbd5f5;
+      opacity: 0.85;
+      transition: all 0.18s ease;
+    }
+
+    .nav-links a:hover {
+      border-color: rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.96);
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    .nav-links a.primary {
+      border-color: rgba(99, 102, 241, 0.85);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.96), rgba(56, 189, 248, 0.96));
+      color: white;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 2.7rem;
+      margin-top: 2.6rem;
+      align-items: center;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.25rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.92);
+      font-size: 0.75rem;
+      color: #e5e7eb;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: radial-gradient(circle, #22c55e 0, #16a34a 50%, #15803d 100%);
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.95);
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-title span.highlight {
+      background: linear-gradient(120deg, #22d3ee, #6366f1, #ec4899, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      max-width: 32rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.92);
+      color: #e5e7eb;
+      transition: all 0.18s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      border-color: transparent;
+      color: white;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.85);
+      border-color: rgba(148, 163, 184, 0.6);
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+    }
+
+    /* ---------- PROFILE CARD ---------- */
+    .hero-right {
+      justify-self: center;
+    }
+
+    .profile-card {
+      position: relative;
+      border-radius: 28px;
+      padding: 1.4rem 1.4rem 1.8rem;
+      background: radial-gradient(circle at top left, rgba(148, 163, 255, 0.16), transparent 60%), rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: -90%;
+      background: conic-gradient(from 120deg, rgba(56, 189, 248, 0.4), transparent, rgba(129, 140, 248, 0.5), transparent);
+      opacity: 0;
+      animation: border-spin 13s linear infinite;
+    }
+
+    .profile-card-inner {
+      position: relative;
+      backdrop-filter: blur(18px);
+      border-radius: inherit;
+      padding: 0.4rem;
+    }
+
+    @keyframes border-spin {
+      0% { transform: rotate(0deg); opacity: 0.5; }
+      100% { transform: rotate(360deg); opacity: 1; }
+    }
+
+    .profile-photo-wrap {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 1rem;
+      border-radius: 999px;
+      padding: 4px;
+      background: linear-gradient(145deg, #22d3ee, #a855f7, #f97316);
+      display: grid;
+      place-items: center;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      overflow: hidden;
+      background: #020617;
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .status-pill {
+      position: absolute;
+      bottom: 4px;
+      right: 6px;
+      padding: 0.26rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: #bbf7d0;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: radial-gradient(circle, #22c55e 0, #15803d 50%, #166534 100%);
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.9);
+    }
+
+    .profile-meta {
+      text-align: center;
+      margin-top: 0.6rem;
+    }
+
+    .profile-meta h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .profile-meta p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .profile-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+    }
+
+    .profile-tags span {
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .profile-links {
+      display: flex;
+      justify-content: center;
+      gap: 0.65rem;
+      margin-top: 1.2rem;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.96);
+      transition: all 0.16s ease;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+      border-color: rgba(99, 102, 241, 0.85);
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section {
+      margin-top: 3.2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .section-title-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      box-shadow: 0 0 14px rgba(99, 102, 241, 0.9);
+    }
+
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      border-radius: var(--radius-2xl);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      padding: 1.2rem 1.3rem;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(var(--blur));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent 55%);
+      pointer-events: none;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-body {
+      font-size: 0.82rem;
+      color: #e5e7eb;
+    }
+
+    /* ---------- ABOUT / RESUME ---------- */
+    .about-columns {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
+      gap: 1.5rem;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .timeline-item {
+      padding-left: 1.2rem;
+      border-left: 1px solid rgba(148, 163, 184, 0.4);
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 0.15rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      box-shadow: 0 0 16px rgba(129, 140, 248, 0.9);
+    }
+
+    .timeline-role {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .timeline-org {
+      color: #cbd5f5;
+    }
+
+    .timeline-year {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    /* ---------- PROJECTS + CALCULATOR ---------- */
+    .project-tag {
+      display: inline-flex;
+      padding: 0.28rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      font-size: 0.75rem;
+    }
+
+    .chip {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.96);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Calculator styles */
+    .calculator {
+      margin-top: 1rem;
+      padding: 0.9rem;
+      border-radius: 18px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.9);
+      max-width: 260px;
+      font-size: 0.9rem;
+    }
+
+    .calc-display {
+      height: 64px;
+      border-radius: 14px;
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 0.4rem 0.6rem;
+      margin-bottom: 0.7rem;
+      overflow: hidden;
+    }
+
+    .calc-expression {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      min-height: 1em;
+      word-wrap: break-word;
+      width: 100%;
+      text-align: right;
+    }
+
+    .calc-result {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-top: 0.15rem;
+      width: 100%;
+      text-align: right;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+    }
+
+    .calc-key {
+      border-radius: 999px;
+      border: none;
+      padding: 0.5rem 0;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.96);
+      color: #e5e7eb;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+    }
+
+    .calc-key.operator {
+      background: radial-gradient(circle at top, rgba(37, 99, 235, 0.9), rgba(79, 70, 229, 0.95));
+      border-color: rgba(129, 140, 248, 0.9);
+    }
+
+    .calc-key.equal {
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      border-color: rgba(129, 140, 248, 0.95);
+    }
+
+    .calc-key.utility {
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+    }
+
+    .calc-key.zero {
+      grid-column: span 2;
+    }
+
+    .calc-key:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    /* ---------- KNOWLEDGE / SKILLS ---------- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 1.4rem;
+    }
+
+    .skill-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-pill {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .skill-bar-group {
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.75rem;
+    }
+
+    .skill-bar-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .skill-bar-track {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.96);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #6366f1, #22d3ee, #ec4899);
+      transform-origin: left;
+      transform: scaleX(0.1);
+      transition: transform 1s ease-out;
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 1.5rem;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 0.85rem;
+      font-size: 0.8rem;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    .form-group label {
+      color: #e5e7eb;
+      font-size: 0.78rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 0.6rem 0.7rem;
+      font-family: inherit;
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      outline: none;
+      transition: border 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: rgba(99, 102, 241, 0.9);
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.8);
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .contact-info-cards {
+      display: grid;
+      gap: 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .contact-item {
+      padding: 0.8rem 0.9rem;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .contact-item-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.15rem;
+    }
+
+    .contact-item a {
+      color: #e5e7eb;
+      font-size: 0.8rem;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      margin-top: 3.2rem;
+      padding-top: 1.6rem;
+      border-top: 1px solid rgba(51, 65, 175, 0.8);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.7rem;
+    }
+
+    /* ---------- ANIMATIONS & REVEAL ---------- */
+    .hidden-on-load {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .hidden-on-load.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .skill-bar-fill.visible {
+      transform: scaleX(var(--level, 0.9));
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-right {
+        order: -1;
+      }
+      .about-columns,
+      .skills-grid,
+      .contact-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+      .page {
+        padding-inline: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating gradient blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Apple-like Intro -->
+  <div class="intro" id="intro">
+    <div class="intro-inner">
+      <div class="hello-wrapper">
+        <svg class="hello-svg" viewBox="0 0 800 260">
+          <defs>
+            <linearGradient id="helloGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#22d3ee" />
+              <stop offset="40%" stop-color="#6366f1" />
+              <stop offset="75%" stop-color="#ec4899" />
+              <stop offset="100%" stop-color="#f97316" />
+            </linearGradient>
+          </defs>
+          <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle"
+                font-family="Great Vibes, cursive"
+                font-size="160"
+                class="hello-stroke">
+            hello
+          </text>
+          <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle"
+                font-family="Great Vibes, cursive"
+                font-size="160"
+                class="hello-fill">
+            hello
+          </text>
+        </svg>
+        <div class="hello-glow-overlay"></div>
+      </div>
+      <div class="hello-sub">WELCOME TO MY PORTFOLIO</div>
+    </div>
+  </div>
+
+  <div class="page">
+    <!-- Header / Nav -->
+    <header>
+      <nav class="nav hidden-on-load">
+        <div class="nav-left">
+          <div class="logo-orb"></div>
+          <div class="nav-name">Sourik&nbsp;Maity</div>
+        </div>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#education">Education</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Knowledge</a>
+          <a href="#contact" class="primary">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <main>
+      <section class="hero">
+        <div class="hero-left hidden-on-load">
+          <div class="tag-pill">
+            <span class="tag-dot"></span>
+            <span>Open to Opportunities</span>
+          </div>
+          <h1 class="hero-title">
+            I’m <span class="highlight">Sourik&nbsp;Maity</span>,<br />
+            a Web Developer crafting smooth digital experiences.
+          </h1>
+          <p class="hero-subtitle">
+            I love building clean, responsive and animated interfaces –
+            from smart tools like calculators to full portfolio experiences
+            that feel delightful to use.
+          </p>
+          <div class="hero-cta">
+            <a href="Sourik Maity Resume.pdf" class="btn btn-primary" target="_blank">
+              <span>Download Resume</span> ↘
+            </a>
+            <a href="#contact" class="btn">
+              <span>Let’s Connect</span> ✉
+            </a>
+          </div>
+          <div class="hero-badges">
+            <span class="badge">Web Developer</span>
+            <span class="badge">Frontend & Logic</span>
+            <span class="badge">Always Learning</span>
+          </div>
+        </div>
+
+        <div class="hero-right hidden-on-load">
+          <div class="profile-card">
+            <div class="profile-card-inner">
+              <div class="profile-photo-wrap">
+                <div class="profile-photo">
+                  <!-- Replace src with your own image path -->
+                  <img src="Sourik.jpeg" alt="Photo of Sourik Maity" />
+                </div>
+                <div class="status-pill">
+                  <span class="status-dot"></span>
+                  <span>Available for work</span>
+                </div>
+              </div>
+              <div class="profile-meta">
+                <h1>Sourik Maity</h1>
+                <p>Web Developer • UI & Logic</p>
+              </div>
+              <div class="profile-tags">
+                <span>HTML • CSS • JS</span>
+                <span>Python</span>
+                <span>Animations</span>
+              </div>
+              <div class="profile-links">
+                <!-- Email -->
+                <a class="icon-btn" href="mailto:sourikmaity612@gmail.com cmo" title="Email">
+                  ✉
+                </a>
+                <!-- LinkedIn -->
+                <a class="icon-btn" href="www.linkedin.com/in/sourik-maity-3b9b41302" target="_blank" title="LinkedIn">
+                  in
+                </a>
+                <!-- GitHub or Portfolio -->
+                <a class="icon-btn" href="#" target="_blank" title="GitHub">
+                  { }
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About & Resume -->
+      <section id="about">
+        <div class="section-header hidden-on-load">
+          <div class="section-title">
+            <span class="section-title-dot"></span> About Me & Resume
+          </div>
+          <div class="section-subtitle">
+            Who I am, what I do, and where I’m heading.
+          </div>
+        </div>
+        <div class="about-columns">
+          <div class="card hidden-on-load">
+            <div class="card-title">About Me</div>
+            <div class="card-body">
+              <p>
+               <div class="card-body">
+  <p>
+    Hi, I’m <strong>Sourik Maity</strong> — a passionate and curious Web Developer who loves creating clean, modern and animated websites. I enjoy turning ideas into working digital experiences that look great and feel smooth to use.
+  </p>
+  <br />
+  <p>
+    I started learning web development because I’m fascinated by how a few lines of code can build something real, something that people can interact with. Now, I focus on improving my skills every day — from <strong>HTML, CSS and JavaScript</strong>, to <strong>Python</strong> and logical problem solving.
+  </p>
+  <br />
+  <p>
+    I love working on visually attractive UI designs, smooth transitions and responsive layouts. Small projects like calculators and portfolio designs help me strengthen both my creativity and coding skills.
+  </p>
+  <br />
+  <p>
+    My goal is simple: <strong>To build websites that are useful, unique and leave a good impression on the people who use them.</strong> I am always excited to learn more, explore new technologies, and take on opportunities where I can grow and contribute with dedication.
+  </p>
+</div>
+
+              </p>
+            </div>
+          </div>
+          <div class="card hidden-on-load">
+            <div class="card-title">Quick Resume Snapshot</div>
+            <div class="card-body">
+              <ul style="list-style: none; padding-left: 0; font-size: 0.8rem; display: grid; gap: 0.4rem;">
+                <li>• Web Developer (Fresher / Entry level)</li>
+                <li>• Strong foundation in HTML, CSS, JavaScript &amp; Python</li>
+                <li>• Familiar with C, C++, Java basics</li>
+                <li>• Comfortable with MS Word &amp; Excel</li>
+                <li>• Interested in modern UI/UX &amp; animated interfaces</li>
+              </ul>
+              <br />
+              <a href="Sourik Maity Resume.pdf" target="_blank" class="btn btn-primary" style="font-size: 0.78rem; padding-inline: 1rem;">
+                View Full Resume ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section id="education">
+        <div class="section-header hidden-on-load">
+          <div class="section-title">
+            <span class="section-title-dot"></span> Education
+          </div>
+          <div class="section-subtitle">My academic background.</div>
+        </div>
+        <div class="card hidden-on-load">
+          <div class="timeline">
+            <!-- Edit these items with your real details -->
+            <div class="timeline-item">
+              <div class="timeline-year">2022 – 2026</div>
+              <div class="timeline-role">Bachelor’s in [Computer Science Engineering ]</div>
+              <div class="timeline-org">[Pailan College of Management and Technology]</div>
+              <p>
+                Brief description about what you learned here, your interest in web
+                development, and any key projects, achievements or activities.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2022</div>
+              <div class="timeline-role">Higher Secondary Education</div>
+              <div class="timeline-org">[Gobra I.N.K.M High School]</div>
+              <p>
+                Pure Science.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section id="experience">
+        <div class="section-header hidden-on-load">
+          <div class="section-title">
+            <span class="section-title-dot"></span> Experience
+          </div>
+          <div class="section-subtitle">
+            Professional / project-based experience that shaped my skills.
+          </div>
+        </div>
+        <div class="card-grid">
+          <div class="card hidden-on-load">
+            <div class="card-title">Web Development Projects</div>
+            <div class="card-meta">Self-driven | 2022 – Present</div>
+            <div class="card-body">
+              <p>
+                I’ve been working on focused projects like a
+                <strong>Smart Calculator</strong> , <strong>LOCAL SERVICE FINDER WEB APP</strong> , <strong>TOURISM MANAGEMENT SYSTEM</strong> on landing pages and small UI
+                components to improve my JavaScript, Python (for logic) and
+                frontend skills.
+              </p>
+            </div>
+          </div>
+          <div class="card hidden-on-load">
+            <div class="card-title">Internship / Freelance (Future)</div>
+            <div class="card-meta">Looking for opportunities</div>
+            <div class="card-body">
+              <p>
+                I’m actively open to internships and freelance projects where I
+                can apply my skills in real-world scenarios and learn from senior
+                developers and designers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects (includes live Calculator) -->
+      <section id="projects">
+        <div class="section-header hidden-on-load">
+          <div class="section-title">
+            <span class="section-title-dot"></span> Projects
+          </div>
+          <div class="section-subtitle">
+            A peek into what I’ve been building.
+          </div>
+        </div>
+        <div class="card-grid">
+          <!-- Calculator Project -->
+          <div class="card hidden-on-load">
+            <div class="project-tag">Featured Project</div>
+            <div class="card-title">Smart Calculator</div>
+            <div class="card-meta">HTML • CSS • JavaScript</div>
+            <div class="card-body">
+              <p>
+                A responsive and animated calculator built using HTML, CSS and
+                JavaScript. It supports basic arithmetic operations, clear,
+                delete, decimals and keyboard-friendly layout. This project helped
+                me practice UI design, layout and JavaScript logic together.
+              </p>
+
+              <div class="project-actions">
+                <span class="chip">Interactive UI</span>
+                <span class="chip">Clean Layout</span>
+                <span class="chip">Logic Practice</span>
+              </div>
+
+              <!-- LIVE CALCULATOR UI -->
+              <div class="calculator" id="calculator">
+                <div class="calc-display">
+                  <div class="calc-expression" id="calc-expression"></div>
+                  <div class="calc-result" id="calc-result">0</div>
+                </div>
+                <div class="calc-grid">
+                  <button class="calc-key utility" data-key="AC">AC</button>
+                  <button class="calc-key utility" data-key="DEL">DEL</button>
+                  <button class="calc-key utility" data-key="%">%</button>
+                  <button class="calc-key operator" data-key="/">÷</button>
+
+                  <button class="calc-key" data-key="7">7</button>
+                  <button class="calc-key" data-key="8">8</button>
+                  <button class="calc-key" data-key="9">9</button>
+                  <button class="calc-key operator" data-key="*">×</button>
+
+                  <button class="calc-key" data-key="4">4</button>
+                  <button class="calc-key" data-key="5">5</button>
+                  <button class="calc-key" data-key="6">6</button>
+                  <button class="calc-key operator" data-key="-">−</button>
+
+                  <button class="calc-key" data-key="1">1</button>
+                  <button class="calc-key" data-key="2">2</button>
+                  <button class="calc-key" data-key="3">3</button>
+                  <button class="calc-key operator" data-key="+">+</button>
+
+                  <button class="calc-key zero" data-key="0">0</button>
+                  <button class="calc-key" data-key=".">.</button>
+                  <button class="calc-key equal" data-key="=">=</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Knowledge / Skills -->
+      <section id="skills">
+        <div class="section-header hidden-on-load">
+          <div class="section-title">
+            <span class="section-title-dot"></span> Knowledge & Skills
+          </div>
+          <div class="section-subtitle">
+            Technologies & tools I’m comfortable with.
+          </div>
+        </div>
+        <div class="skills-grid">
+          <div class="card hidden-on-load">
+            <div class="card-title">Technical Skills</div>
+            <div class="card-body">
+              <div class="skill-pill-row">
+                <span class="skill-pill">HTML</span>
+                <span class="skill-pill">CSS</span>
+                <span class="skill-pill">JavaScript</span>
+                <span class="skill-pill">Python</span>
+                <span class="skill-pill">C</span>
+                <span class="skill-pill">C++</span>
+                <span class="skill-pill">Java (Basics)</span>
+                <span class="skill-pill">Responsive Design</span>
+                <span class="skill-pill">UI / UX Basics</span>
+                <span class="skill-pill">Git / GitHub (Basics)</span>
+              </div>
+              <div class="skill-bar-group">
+                <div>
+                  <div class="skill-bar-label">
+                    <span>HTML</span><span>Advanced</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--level: 0.95;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="skill-bar-label">
+                    <span>CSS</span><span>Advanced</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--level: 0.9;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="skill-bar-label">
+                    <span>JavaScript</span><span>Intermediate</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--level: 0.75;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="skill-bar-label">
+                    <span>Python</span><span>Intermediate</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--level: 0.7;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card hidden-on-load">
+            <div class="card-title">Tools & Office Skills</div>
+            <div class="card-body">
+              <p style="margin-bottom: 0.6rem;">
+                I also know how to work with office productivity tools to create
+                documents, manage data and present information clearly.
+              </p>
+              <div class="skill-pill-row">
+                <span class="skill-pill">MS Word</span>
+                <span class="skill-pill">MS Excel</span>
+                <span class="skill-pill">PowerPoint</span>
+                <span class="skill-pill">Google Docs</span>
+                <span class="skill-pill">Google Sheets</span>
+              </div>
+              <div class="skill-bar-group">
+                <div>
+                  <div class="skill-bar-label">
+                    <span>MS Word</span><span>Good</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--level: 0.85;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="skill-bar-label">
+                    <span>MS Excel</span><span>Intermediate</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--level: 0.7;"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="skill-bar-label">
+                    <span>Communication</span><span>Strong</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div class="skill-bar-fill" style="--level: 0.8;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <div class="section-header hidden-on-load">
+          <div class="section-title">
+            <span class="section-title-dot"></span> Contact & Mail
+          </div>
+          <div class="section-subtitle">
+            Let’s talk about projects, collaborations or opportunities.
+          </div>
+        </div>
+        <div class="contact-layout">
+          <div class="card hidden-on-load">
+            <div class="card-title">Send me a message</div>
+            <div class="card-body">
+              <form class="contact-form" onsubmit="event.preventDefault(); alert('This form is a frontend demo. Connect it to a backend or service to send real messages.');">
+                <div class="form-group">
+                  <label for="name">Your Name</label>
+                  <input id="name" type="text" placeholder="Enter your name" required />
+                </div>
+                <div class="form-group">
+                  <label for="email">Your Email</label>
+                  <input id="email" type="email" placeholder="Enter your email" required />
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea id="message" placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 0.4rem;">
+                  Send Message ✉
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="contact-info-cards">
+            <div class="contact-item hidden-on-load">
+              <div class="contact-item-title">Email</div>
+              <p class="card-meta">Mail section</p>
+              <a href="mailto:sourikmaity612@gmail.com">sourikmaity612@gmail.com</a>
+            </div>
+            <div class="contact-item hidden-on-load">
+              <div class="contact-item-title">LinkedIn</div>
+              <p class="card-meta">Let’s connect professionally</p>
+              <a href="www.linkedin.com/in/sourik-maity-3b9b41302" target="_blank">
+                Sourik Maity 
+              </a>
+            </div>
+            <div class="contact-item hidden-on-load">
+              <div class="contact-item-title">Location & Availability</div>
+              <p>
+                Based in India • Available for remote and on-site opportunities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© <span id="year"></span> Sourik Maity. All rights reserved.</span>
+      <span>Built with HTML, CSS &amp; JavaScript • Designed with care.</span>
+    </footer>
+  </div>
+
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Intro animation hide after delay
+    const intro = document.getElementById("intro");
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        intro.classList.add("hide");
+        setTimeout(() => {
+          intro.classList.add("hidden");
+        }, 900);
+      }, 3300);
+    });
+
+    // Reveal-on-scroll for sections & skills
+    const revealEls = document.querySelectorAll(".hidden-on-load");
+    const skillBars = document.querySelectorAll(".skill-bar-fill");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    revealEls.forEach((el) => observer.observe(el));
+    skillBars.forEach((bar) => observer.observe(bar));
+
+    // Calculator logic
+    const exprEl = document.getElementById("calc-expression");
+    const resultEl = document.getElementById("calc-result");
+    const keys = document.querySelectorAll(".calc-key");
+
+    let expression = "";
+    let result = "0";
+
+    function updateDisplay() {
+      exprEl.textContent = expression;
+      resultEl.textContent = result;
+    }
+
+    function isOperator(char) {
+      return ["+", "-", "*", "/", "%"].includes(char);
+    }
+
+    function handleKey(value) {
+      if (value === "AC") {
+        expression = "";
+        result = "0";
+        updateDisplay();
+        return;
+      }
+
+      if (value === "DEL") {
+        expression = expression.slice(0, -1);
+        if (!expression) result = "0";
+        updateDisplay();
+        return;
+      }
+
+      if (value === "=") {
+        if (!expression) return;
+        try {
+          // Avoid ending with operator
+          if (isOperator(expression.slice(-1))) {
+            expression = expression.slice(0, -1);
+          }
+          // Replace percentage: "50%" -> "(50/100)"
+          const safeExpr = expression.replace(/(\d+(\.\d+)?)%/g, "($1/100)");
+          const evalResult = Function("return " + safeExpr)();
+          if (evalResult === undefined || Number.isNaN(evalResult)) {
+            result = "Error";
+          } else {
+            result = String(evalResult);
+          }
+        } catch (e) {
+          result = "Error";
+        }
+        updateDisplay();
+        return;
+      }
+
+      if (value === ".") {
+        const parts = expression.split(/[\+\-\*\/%]/);
+        const current = parts[parts.length - 1];
+        if (current.includes(".")) return;
+        expression += value;
+        result = current + value;
+        updateDisplay();
+        return;
+      }
+
+      if (isOperator(value)) {
+        if (!expression) return;
+        const last = expression.slice(-1);
+        if (isOperator(last)) {
+          expression = expression.slice(0, -1) + value;
+        } else {
+          expression += value;
+        }
+        updateDisplay();
+        return;
+      }
+
+      // Numbers
+      expression += value;
+      result = expression;
+      updateDisplay();
+    }
+
+    keys.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.getAttribute("data-key");
+        handleKey(value);
+      });
+    });
+
+    // Optional: keyboard support
+    window.addEventListener("keydown", (e) => {
+      const key = e.key;
+      if ((key >= "0" && key <= "9") || key === "." || ["+", "-", "*", "/"].includes(key)) {
+        handleKey(key);
+      } else if (key === "Enter") {
+        handleKey("=");
+      } else if (key === "Backspace") {
+        handleKey("DEL");
+      } else if (key.toLowerCase() === "c") {
+        handleKey("AC");
+      } else if (key === "%") {
+        handleKey("%");
+      }
+    });
+  </script>
+</body>
+</html>
